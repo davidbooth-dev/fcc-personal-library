@@ -220,5 +220,4 @@ suite('Functional Tests', function() {
       });
     });
   });
-
 });
