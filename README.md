@@ -10,4 +10,12 @@ Project Personal Library
 4) You will add any security features to `server.js`
 5) You will create all of the functional tests in `tests/2_functional-tests.js`
 
+Added db functions for;
+- deleteComment
+- deleteAllComments
 
+Added api route /api/books/:id/:comment
+- delete comment with specified id and comment
+
+Front-end additions
+- added button for delete comment
