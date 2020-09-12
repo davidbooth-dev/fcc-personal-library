@@ -27,6 +27,10 @@ app.route('/')
     res.sendFile(process.cwd() + '/views/index.html');
   });
 
+  app.route('/library')
+  .get(function (req, res) {
+    res.sendFile(process.cwd() + '/views/library.html');
+  });
 //For FCC testing purposes
 fccTestingRoutes(app);
 
@@ -44,9 +48,9 @@ app.use(function(req, res, next) {
 app.listen(process.env.PORT || 3000, function () {
   console.log("Listening on port " + process.env.PORT);
   if(process.env.NODE_ENV==='test') {
-    console.log('Running Tests...');
+    /*console.log('Running Tests...');
     // Un-comment to run tests
-    /*setTimeout(function () {
+    setTimeout(function () {
       try {
         runner.run();
       } catch(e) {
