@@ -13,6 +13,8 @@ var server = require('../server');
 
 chai.use(chaiHttp);
 
+let id = '';
+
 suite('Functional Tests', function() {
 
   /*
@@ -42,14 +44,15 @@ suite('Functional Tests', function() {
       test('Test POST /api/books with title', function(done) {
         chai.request(server)
         .post('/api/books')
-        .send({ title: 'text' })
+        .send({ title: 'The Hunger Games' })
         .end(function(err, res){
+          id = res.body._id;
           assert.equal(res.status, 200);
-          assert.isArray(res.body, 'response should be an array');
-          assert.property(res.body[0], 'comments', 'Should be a comment array')
-          assert.property(res.body[0], 'commentcount', 'Books in array should contain commentcount');
-          assert.property(res.body[0], 'title', 'Books in array should contain title');
-          assert.property(res.body[0], '_id', 'Books in array should contain _id');
+          assert.isObject(res.body, 'response should be an object');
+          assert.property(res.body, 'comments', 'Should be a comment array')
+          assert.property(res.body, 'commentcount', 'Books in array should contain commentcount');
+          assert.property(res.body, 'title', 'Books in array should contain title');
+          assert.property(res.body, '_id', 'Books in array should contain _id');
           done();
         }); 
       });
@@ -65,9 +68,7 @@ suite('Functional Tests', function() {
           done();
         });
       });
-      
     });
-
 
     suite('GET /api/books => array of books', function(){
       
@@ -85,16 +86,14 @@ suite('Functional Tests', function() {
           done();
         });
       });      
-      
     });
-
 
     suite('GET /api/books/[id] => book object with [id]', function(){
       
       test('Test GET /api/books/[id] with id not in db',  function(done){
-        const id = '000000000000';
+        const _id = '000000000000';
         chai.request(server)
-        .get(`/api/books/${id}`)
+        .get(`/api/books/${_id}`)
         .end(function(err, res){
           assert.equal(res.status, 200);
           assert.isArray(res.body, 'Response should be an array');
@@ -105,7 +104,6 @@ suite('Functional Tests', function() {
       });
       
       test('Test GET /api/books/[id] with valid id in db',  function(done){
-        const id = '5f57ad058e0d2913a0b5a4ac';
         chai.request(server)
         .get(`/api/books/${id}`)
         .end(function(err, res){
@@ -118,17 +116,14 @@ suite('Functional Tests', function() {
           done();
         });
       });
-      
     });
-
 
     suite('POST /api/books/[id] => add comment/expect book object with id', function(){
       
-      test('Test POST /api/books/[id] with comment', function(done){
-        const id = '5f57ad058e0d2913a0b5a4ac';        
+      test('Test POST /api/books/[id] with comment', function(done){      
         chai.request(server)
         .post(`/api/books/${id}`)
-        .send({ comment: 'comment' })
+        .send({ comment: 'Will Read Again' })
         .end(function(err, res){
           assert.equal(res.status, 200);
           assert.isObject(res.body, 'response should be an object');
@@ -138,14 +133,12 @@ suite('Functional Tests', function() {
 
           done();
         });
-      });
-      
+      });  
     });
 
     suite('POST /api/books/[id] => add comment', function(){
       
       test('Test POST /api/books/[id] with id/no comment', function(done){
-        const id = '5f57ad058e0d2913a0b5a4ac';
         chai.request(server)
         .post(`/api/books/${id}`)
         .end(function(err, res){
@@ -158,11 +151,11 @@ suite('Functional Tests', function() {
       });
       
       test('Test POST /api/books/[id] with no id/comment', function(done){
-        const id = '000000000000';
+        const _id = '000000000000';
         chai.request(server)
-        .post(`/api/books/${id}`)
+        .post(`/api/books/${_id}`)
         .send({
-          comment: 'text'
+          comment: 'Great Read'
         })
         .end(function(err, res){
           assert.equal(res.status, 200);
@@ -177,9 +170,9 @@ suite('Functional Tests', function() {
     suite('DELETE /api/books/[id] => delete book', function(){
 
       test('Test DELETE /api/books/[id] with no id', function(done){
-        const id = '000000000000';
+        const _id = '000000000000';
         chai.request(server)
-        .delete(`/api/books/${id}`)
+        .delete(`/api/books/${_id}`)
         .end(function(err, res){
           assert.equal(res.status, 200);
           assert.isObject(res.body, 'response should be an object');
@@ -190,11 +183,9 @@ suite('Functional Tests', function() {
       });
 
       test('Test DELETE /api/books/[id] with id', function(done){
-        const id = '5f57b451128deb3c98befb8e';
         chai.request(server)
         .delete(`/api/books/${id}`)
         .end(function(err, res){
-          console.log('body: ', res.body);
           assert.equal(res.status, 200);
           assert.isObject(res.body, 'response should be an object');
           assert.equal(res.text, 'Delete Successful')
@@ -207,7 +198,7 @@ suite('Functional Tests', function() {
 
     suite('DELETE /api/books => delete all books', function(){
       
-      test('Test DELETE /api/books', function(done){
+      /*test('Test DELETE /api/books', function(done){
         chai.request(server)
         .delete('/api/books')
         .end(function(err, res){
@@ -217,7 +208,8 @@ suite('Functional Tests', function() {
 
           done();
         });
-      });
+      });*/
     });
   });
+
 });
