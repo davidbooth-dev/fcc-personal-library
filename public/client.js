@@ -6,11 +6,15 @@ $(document).ready(function () {
 
   function refreshBookList(data) {
     let items = [];
+    if(data.length > 0){
+      items.push('<table class="listWrapper"><tr><th>Title</th><th>#Comments</th></tr>');
+    }
     $.each(data, function (i, val) {
       var commenttext = val.commentcount === 1 ? ' comment' : ' comments';
       items.push('<tr><td class="bookItem" id="' + i + '">' + val.title + '</td><td>' + val.commentcount + commenttext + '</td></tr>');
       return (i !== 14);
     });
+    items.push('</table');
     if (items.length >= 15) {
       items.push('<p>...and ' + (data.length - 15) + ' more!</p>');
     }
@@ -51,13 +55,9 @@ $(document).ready(function () {
   $.getJSON('/api/books', function (data) {
     itemsRaw = data;
     if (data.length !== 0) {
-      let items = refreshBookList(data);
-      let elements = [];
-      elements.push('<table class="listWrapper"><tr><th>Title</th><th>#Comments</th></tr>');
-      elements.push(items.join(''));
-      elements.push('</table');
+      let items = refreshBookList(data);    
 
-      $('#display').html(elements.join(''));
+      $('#display').html(items.join(''));
       /*$('<table/>', {
         'class': 'listWrapper',
         html: items.join('')
