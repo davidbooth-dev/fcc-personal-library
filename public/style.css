@@ -1,14 +1,61 @@
 .border {
-  border-style: inset;
-  border-width: 1px;
-  margin: 10px;
+  border: solid thin #000;
 }
 
-#sampleui {
-  max-width: 450px;
-  margin-left: 5%;
-  height: 100%;
+:root{
+  --text: #3d3736;
 }
+
+body{ color: var(--text); }
+header h1{ text-align: center; margin: 10px; }
+hr{ max-width: 650px; margin: 10px auto; }
+
+div{ margin: 5px; }
+ul{ margin: 2px; }
+
+#library{ text-align: center; margin: 10px; }
+
+#sampleui {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 650px;
+  margin: auto;
+  background: #34eb7a;
+}
+
+#sampleui h2{ font-weight: normal; }
+
+#display, #bookDetail, #detailComments {
+  display: flex;
+  align-items: center;
+  width: 65%
+}
+
+#bookDetail, #detailComments{
+  flex-direction: column;
+  justify-content: center;
+}
+#detailComments{ width: 100%; }
+#sampleui #bookDetail #detailTitle{  display: flex; margin: 1px; }
+
+p#detailTitle  { text-align: center; color: #3d3736; }
+
+.btnContainer{
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn{ width: 150px; }
+
+table{ width: 100%;  background: #FFF; }
+table.listWrapper th{ background: #d2cdcd; color: var(--text); font-weight: normal; }
+table#comments{ margin-bottom: 10px; }
+table#comments td:nth-child(1) { cursor: default; }
+td:nth-child(1){ width: 70%; background: #FFF; cursor: pointer; }
+td:nth-child(2){ width: 30%; background: #FFF; }
+td{ padding: 3px; }
 
 #sampleposting {
   max-width: 450px;
@@ -19,12 +66,3 @@
 #userstories {
   margin-left: 5%;
 }
-
-form {
-  padding: 5px;
-}
-
-table{
-  width: 80%;
-}
-tr{}
